@@ -13,7 +13,7 @@
 //   HSS_MANDRILL_API_KEY
 //
 // Commands:
-//   hubot scrum start <email>
+//   hubot scrum start <email> <project>
 //   next
 //   next user <reason>
 //
@@ -49,16 +49,22 @@ module.exports = function scrum(robot) {
   function start(res) {
     var channel = _getChannel(res.message.room);
     var email = res.match[2];
+    var project = res.match[3];
     var scrum;
 
     if (_scrumExists(channel)) return;
     scrum = _getScrum(channel);
-    res.send("Hi " + res.message.room + ", let's start a new Scrum");
+    res.send("Hi " + res.message.room + ", let's start a new scrum session!");
 
     if (email) {
       scrum.email = email;
-      robot.brain.set(_getScrumID(channel), scrum);
     }
+    
+    if (project) {
+       scrum.project = project;
+    }
+    	
+    robot.brain.set(_getScrumID(channel), scrum);
 
     _doQuestion(scrum);
   }
@@ -146,7 +152,8 @@ module.exports = function scrum(robot) {
 
   function _finish(scrum) {
     _saveAnswer(scrum);
-    scrum.channel.send("Thanks" + scrum.channel+ " for participating in today's scrum");
+    scrum.channel.send("Thanks <!channel> for participating in today's scrum");
+    scrum.channel.send("If you have any questions about this module send an email to: <ismirha@maestralsolutions.com>");
     _sendEmail(scrum);
     robot.brain.set(_getScrumID(scrum.channel), false);
   }
@@ -240,9 +247,9 @@ module.exports = function scrum(robot) {
     mandrillClient.messages.send({
       message: {
         html: html,
-        subject: "Maestral scrum metting " + new Date().toLocaleDateString(),
-        from_email: "no.replay@example.org",
-        from_name: "Maestral Slack Scrum",
+        subject: scrum.project + "scrum meeting " + new Date().toLocaleDateString(),
+        from_email: "no.replay@maestralsolutions.com",
+        from_name: scrum.project + " Slack Scrum",
         to: [{
           email: scrum.email,
           type: "to"
