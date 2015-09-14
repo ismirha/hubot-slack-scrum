@@ -1,7 +1,7 @@
 {
   "name": "hubot-slack-scrum",
   "description": "A hubot script that does a virtual scrum meeting with the Slack's hubot adapter",
-  "version": "https://github.com/ismirha/hubot-slack-scrum/tarball/245d5743db2275b267e273845549521c41c9c2d5",
+  "version": "0.3.0",
   "author": "eseceve <eseceve@gmail.com>",
   "license": "MIT",
   "keywords": [
