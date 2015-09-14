@@ -1,5 +1,5 @@
 # hubot-slack-scrum
-[![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url] [![Coverage Status][coveralls-image]][coveralls-url]
+
 
 A hubot script that does a virtual scrum meeting with the Slack's hubot adapter
 

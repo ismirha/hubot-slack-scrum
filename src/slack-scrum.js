@@ -53,7 +53,7 @@ module.exports = function scrum(robot) {
 
     if (_scrumExists(channel)) return;
     scrum = _getScrum(channel);
-    res.send("Hi <!channel>, let's start a new Scrum");
+    res.send("Hi " + res.message.room + ", let's start a new Scrum");
 
     if (email) {
       scrum.email = email;
@@ -146,7 +146,7 @@ module.exports = function scrum(robot) {
 
   function _finish(scrum) {
     _saveAnswer(scrum);
-    scrum.channel.send("Thanks <!channel> for participating =)");
+    scrum.channel.send("Thanks" + scrum.channel+ " for participating in today's scrum");
     _sendEmail(scrum);
     robot.brain.set(_getScrumID(scrum.channel), false);
   }
@@ -240,9 +240,9 @@ module.exports = function scrum(robot) {
     mandrillClient.messages.send({
       message: {
         html: html,
-        subject: "[HSS] scrum metting " + new Date().toLocaleDateString(),
+        subject: "Maestral scrum metting " + new Date().toLocaleDateString(),
         from_email: "no.replay@example.org",
-        from_name: "Hubot Slack Scrum",
+        from_name: "Maestral Slack Scrum",
         to: [{
           email: scrum.email,
           type: "to"
