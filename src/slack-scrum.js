@@ -42,7 +42,7 @@ module.exports = function scrum(robot) {
 
 
   robot.respond(/scrum start(\s([a-zA-Z0-9+._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}))?/i, start);
-  robot.hear(/scrum project(.*)/, updateProjectName)
+  robot.hear(/scrum project(.*)/i, updateProjectName)
   robot.hear(/next/i, next);
   robot.hear(/next user(.*)/i, nextUser);
 
