@@ -41,7 +41,8 @@ module.exports = function scrum(robot) {
   var slackAdapterClient = robot.adapter.client;
 
 
-  robot.respond(/scrum start(\s([a-zA-Z0-9+._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})(\s [a-zA-Z0-9+._-]{20,}))?/i, start);
+  robot.respond(/scrum start(\s([a-zA-Z0-9+._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}))?/i, start);
+  robot.hear(/scrum project (.*)/, updateProjectName)
   robot.hear(/next/i, next);
   robot.hear(/next user(.*)/i, nextUser);
 
@@ -49,12 +50,14 @@ module.exports = function scrum(robot) {
   function start(res) {
     var channel = _getChannel(res.message.room);
     var email = res.match[2];
-    var project = res.match[3];
+    
     var scrum;
 
     if (_scrumExists(channel)) return;
     scrum = _getScrum(channel);
     res.send("Hi " + res.message.room + ", let's start a new scrum session!");
+    res.send("But before you start please tell me for which project is this scrum intented!");
+    res.send('Command `scrum project <name>` require a <name>')
 
     if (email) {
       scrum.email = email;
@@ -68,6 +71,25 @@ module.exports = function scrum(robot) {
 
     _doQuestion(scrum);
   }
+  
+  function updateProjectName(res) {
+	    var channel = _getChannel(res.message.room);
+	    var text = res.message.text.toLowerCase();
+	    var name;
+	    var scrum;
+	    var user;
+
+	    if (!_scrumExists(channel)) return;
+
+	    scrum = _getScrum(channel);
+	    projectName = res.match[1];
+
+
+	    if (name) {
+	      scrum.name = name.trim();
+	      robot.brain.set(_getScrumID(scrum.channel), scrum);
+	    }
+	  }
 
 
   function next(res, force) {
@@ -247,9 +269,9 @@ module.exports = function scrum(robot) {
     mandrillClient.messages.send({
       message: {
         html: html,
-        subject: scrum.project + " scrum meeting " + new Date().toLocaleDateString(),
+        subject: scrum.name + " scrum meeting " + new Date().toLocaleDateString(),
         from_email: "no.replay@maestralsolutions.com",
-        from_name: scrum.project + " Slack Scrum",
+        from_name: scrum.name + " Slack Scrum",
         to: [{
           email: scrum.email,
           type: "to"
