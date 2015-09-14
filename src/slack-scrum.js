@@ -41,7 +41,7 @@ module.exports = function scrum(robot) {
   var slackAdapterClient = robot.adapter.client;
 
 
-  robot.respond(/scrum start(\s([a-zA-Z0-9+._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}))?(\s([a-zA-Z0-9+._-]))/i, start);
+  robot.respond(/scrum start(\s([a-zA-Z0-9+._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}))?(\s(^[A-Z]+$))/i, start);
   robot.hear(/next/i, next);
   robot.hear(/next user(.*)/i, nextUser);
 
