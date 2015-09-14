@@ -37,13 +37,11 @@ html(xmlns='http://www.w3.org/1999/xhtml')
       -moz-hyphens: auto;
       hyphens: auto;
       border-collapse: collapse !important;
-      padding: 3%;
       }
       table, tr, td {
       padding: 0;
       vertical-align: top;
       text-align: left;
-      padding: 3%;
       }
   body
     img(src="http://www.maestralsolutions.com/img/logo.png" width="200px")
@@ -60,7 +58,7 @@ html(xmlns='http://www.w3.org/1999/xhtml')
                     th(width="25%")= question
               tbody
                 each member in members
-                  tr(style="border-bottom-color:#ddd;border-bottom-style:solid;border-bottom-width:1px;line-height:35px")
+                  tr(style="border-bottom-color:#ddd;border-bottom-style:solid;border-bottom-width:1px;line-height:40px")
                     if member.profile.real_name_normalized
                       th= member.profile.real_name_normalized
                     else
