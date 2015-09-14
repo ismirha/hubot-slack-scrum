@@ -77,7 +77,7 @@ module.exports = function scrum(robot) {
 	    if (!_scrumExists(channel)) return;
 
 	    scrum = _getScrum(channel);
-	    projectName = res.match[1];
+	    name = res.match[1];
 
 
 	    if (name) {
