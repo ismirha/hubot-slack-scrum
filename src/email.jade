@@ -52,7 +52,7 @@ html(xmlns='http://www.w3.org/1999/xhtml')
         td.center(align='center', valign='top')
           center
             h4 Maestral-Bot Slack Scrum Summary Report
-            table(style="border-collapse:collapse;border-spacing:0;color:#4a4a4a;font-size:13px;font-weight:500;width:100%")
+            table(style="border-collapse:collapse;border-spacing:0;color:#4a4a4a;font-size:13px;font-weight:500;width:100%;text-align: left;")
               thead
                 tr(style="background-color: #B4D8E7")
                   th(width="25%") Username
@@ -60,7 +60,7 @@ html(xmlns='http://www.w3.org/1999/xhtml')
                     th(width="25%")= question
               tbody
                 each member in members
-                  tr(style="border-bottom-color:#ddd;border-bottom-style:solid;border-bottom-width:1px;line-height:25px")
+                  tr(style="border-bottom-color:#ddd;border-bottom-style:solid;border-bottom-width:1px;line-height:19x")
                     if member.profile.real_name_normalized
                       th= member.profile.real_name_normalized
                     else
