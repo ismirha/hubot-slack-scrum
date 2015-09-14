@@ -42,7 +42,7 @@ module.exports = function scrum(robot) {
 
 
   robot.respond(/scrum start(\s([a-zA-Z0-9+._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}))?/i, start);
-  robot.hear(/scrum project (.*)/, updateProjectName)
+  robot.hear(/scrum project(.*)/, updateProjectName)
   robot.hear(/next/i, next);
   robot.hear(/next user(.*)/i, nextUser);
 
@@ -57,14 +57,9 @@ module.exports = function scrum(robot) {
     scrum = _getScrum(channel);
     res.send("Hi " + res.message.room + ", let's start a new scrum session!");
     res.send("But before you start please tell me for which project is this scrum intented!");
-    res.send('Command `scrum project <name>` require a <name>')
 
     if (email) {
       scrum.email = email;
-    }
-    
-    if (project) {
-       scrum.project = project;
     }
     	
     robot.brain.set(_getScrumID(channel), scrum);
