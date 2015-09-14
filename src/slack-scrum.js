@@ -41,7 +41,7 @@ module.exports = function scrum(robot) {
   var slackAdapterClient = robot.adapter.client;
 
 
-  robot.respond(/scrum start(\s([a-zA-Z0-9+._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{3,}))?/i, start);
+  robot.respond(/scrum start(\s([a-zA-Z0-9+._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}))(\s [a-zA-Z0-9+._-]{2,})?/i, start);
   robot.hear(/next/i, next);
   robot.hear(/next user(.*)/i, nextUser);
 
@@ -247,7 +247,7 @@ module.exports = function scrum(robot) {
     mandrillClient.messages.send({
       message: {
         html: html,
-        subject: scrum.project + "scrum meeting " + new Date().toLocaleDateString(),
+        subject: scrum.project + " scrum meeting " + new Date().toLocaleDateString(),
         from_email: "no.replay@maestralsolutions.com",
         from_name: scrum.project + " Slack Scrum",
         to: [{
