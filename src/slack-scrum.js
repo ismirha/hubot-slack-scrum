@@ -42,7 +42,6 @@ module.exports = function scrum(robot) {
 
 
   robot.respond(/scrum start(\s([a-zA-Z0-9+._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}))?/i, start);
-  robot.hear(/scrum project(.*)/i, updateProjectName)
   robot.hear(/next/i, next);
   robot.hear(/next user(.*)/i, nextUser);
 
@@ -56,7 +55,6 @@ module.exports = function scrum(robot) {
     if (_scrumExists(channel)) return;
     scrum = _getScrum(channel);
     res.send("Hi " + res.message.room + ", let's start a new scrum session!");
-    res.send("But before you start please tell me for which project is this scrum intented!");
 
     if (email) {
       scrum.email = email;
@@ -66,26 +64,6 @@ module.exports = function scrum(robot) {
 
     _doQuestion(scrum);
   }
-  
-  function updateProjectName(res) {
-	    var channel = _getChannel(res.message.room);
-	    var text = res.message.text.toLowerCase();
-	    var name;
-	    var scrum;
-	    var user;
-
-	    if (!_scrumExists(channel)) return;
-
-	    scrum = _getScrum(channel);
-	    name = res.match[1];
-
-
-	    if (name) {
-	      scrum.name = name.trim();
-	      robot.brain.set(_getScrumID(scrum.channel), scrum);
-	    }
-	  }
-
 
   function next(res, force) {
     var channel = _getChannel(res.message.room);
@@ -128,7 +106,7 @@ module.exports = function scrum(robot) {
 
     scrum.user++;
     scrum.question = 0;
-    if (scrum.user >= scrum.members.length) return _finish(scrum);
+    if (scrum.user >= scrum.members.length) return _finish(scrum, res.message.room);
     next(res, true);
   }
 
@@ -167,11 +145,11 @@ module.exports = function scrum(robot) {
   }
 
 
-  function _finish(scrum) {
+  function _finish(scrum, room) {
     _saveAnswer(scrum);
-    scrum.channel.send("Thanks <!channel> for participating in today's scrum");
+    scrum.channel.send("Thanks " + room +" for participating in today's scrum");
     scrum.channel.send("If you have any questions about this module send an email to: <ismirha@maestralsolutions.com>");
-    _sendEmail(scrum);
+    _sendEmail(scrum, room);
     robot.brain.set(_getScrumID(scrum.channel), false);
   }
 
@@ -251,7 +229,7 @@ module.exports = function scrum(robot) {
   }
 
 
-  function _sendEmail(scrum) {
+  function _sendEmail(scrum, room) {
     if (!scrum.email) return;
     if (!env.HSS_MANDRILL_API_KEY) return;
 
@@ -264,9 +242,9 @@ module.exports = function scrum(robot) {
     mandrillClient.messages.send({
       message: {
         html: html,
-        subject: scrum.name + " scrum meeting " + new Date().toLocaleDateString(),
+        subject: room + " scrum meeting " + new Date().toLocaleDateString(),
         from_email: "no.replay@maestralsolutions.com",
-        from_name: scrum.name + " Slack Scrum",
+        from_name: room + " slack scrum",
         to: [{
           email: scrum.email,
           type: "to"
