@@ -55,12 +55,12 @@ html(xmlns='http://www.w3.org/1999/xhtml')
             table(style="border-collapse:collapse;border-spacing:0;color:#4a4a4a;font-size:13px;font-weight:500;width:100%;text-align: left;")
               thead
                 tr(style="background-color: #B4D8E7")
-                  th(width="25%") Username
+                  th(width="25%") Engineer
                   each question in questions
                     th(width="25%")= question
               tbody
                 each member in members
-                  tr(style="border-bottom-color:#ddd;border-bottom-style:solid;border-bottom-width:1px;line-height:19x")
+                  tr(style="border-bottom-color:#ddd;border-bottom-style:solid;border-bottom-width:3px;line-height:15px; padding:5px")
                     if member.profile.real_name_normalized
                       th= member.profile.real_name_normalized
                     else
